@@ -90,7 +90,6 @@ contract NEToken is StandardToken {
         uint256 _exchangeRateChangesBlock)
     {
         // Check that the parameters make sense
-        require(block.number <= _fundingStartBlock); // The start of the fundraising should happen in the future
         require(_fundingStartBlock <= _exchangeRateChangesBlock); // The exchange rate change should happen after the start of the fundraising
         require(_exchangeRateChangesBlock <= _fundingEndBlock); // And the end of the fundraising should happen after the exchange rate change
 
@@ -132,7 +131,6 @@ contract NEToken is StandardToken {
     isFundraising
     {
         require(block.number >= fundingStartBlock);
-        require(block.number <= fundingEndBlock);
         require(msg.value > 0);
 
         // First we check the ETH cap, as it's easier to calculate, return
