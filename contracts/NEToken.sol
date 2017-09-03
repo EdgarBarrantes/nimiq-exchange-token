@@ -123,40 +123,27 @@ contract NEToken is StandardToken {
         return super.transferFrom(_from, _to, _value);
     }
 
-
     /// @dev Accepts ether and creates new NET tokens
     function createTokens()
     payable
     external
     isFundraising
     {
-        require(block.number >= fundingStartBlock);
-        require(msg.value > 0);
+        // Check that the block number is bigger than the fundingStartBlock and
+        // that the amount of Ether sent was bigger than 0
 
         // First we check the ETH cap, as it's easier to calculate, return
         // the contribution if the cap has been reached already
-        uint256 checkedReceivedEth = safeAdd(totalReceivedEth, msg.value);
-        require(checkedReceivedEth <= ETH_RECEIVED_CAP);
 
         // If all is fine with the ETH cap, we continue to check the
         // minimum amount of tokens and the cap for how many tokens
         // have been generated so far
-        uint256 tokens = safeMult(msg.value, getCurrentTokenPrice());
-        require(tokens >= TOKEN_MIN);
-        uint256 checkedSupply = safeAdd(totalSupply, tokens);
-        require(checkedSupply <= TOKEN_CREATION_CAP);
 
         // Only when all the checks have passed, then we update the state (ethBalances,
         // totalReceivedEth, totalSupply, and balances) of the contract
-        ethBalances[msg.sender] = safeAdd(ethBalances[msg.sender], msg.value);
-        totalReceivedEth = checkedReceivedEth;
-        totalSupply = checkedSupply;
-        balances[msg.sender] += tokens;  // safeAdd not needed; bad semantics to use here
 
         // Log the creation of this tokens
-        LogCreateNET(msg.sender, tokens);
     }
-
 
     /// @dev Returns the current token price
     function getCurrentTokenPrice()
