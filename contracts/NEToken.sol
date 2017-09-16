@@ -123,26 +123,28 @@ contract NEToken is StandardToken {
         return super.transferFrom(_from, _to, _value);
     }
 
-    /// @dev Accepts ether and creates new NET tokens
+    /// @dev Acepta Ether y crea nuevos tokens.
     function createTokens()
     payable
     external
     isFundraising
     {
-        // Check that the block number is bigger than the fundingStartBlock and
-        // that the amount of Ether sent was bigger than 0
+        // Revisar que el numero de bloque actual sea mayor al fundingStartBlock
+        // y que la cantidad de Ether enviado sea mayor a 0
 
-        // First we check the ETH cap, as it's easier to calculate, return
-        // the contribution if the cap has been reached already
+        // Primero revisamos que el límite de Ether enviado al contrato no se
+        // haya sobrepasado. Devolver el monto enviado en caso de que el límite
+        // ya se haya alcanzado.
 
-        // If all is fine with the ETH cap, we continue to check the
-        // minimum amount of tokens and the cap for how many tokens
-        // have been generated so far
+        // Si todo está bien con el límite de ETH, revisamos el límite de tokens
+        // para ver cuántas tokens se han generado hasta el momento. Hint:
+        // revisar StandardToken.sol
 
-        // Only when all the checks have passed, then we update the state (ethBalances,
-        // totalReceivedEth, totalSupply, and balances) of the contract
+        // Hasta que no se hayan hecho todos los checks anteriores, actualizamos
+        // el estado (ethBalances, totalReceivedEth, totalSupply y balances) del
+        // contrato.
 
-        // Log the creation of this tokens
+        // Hacer un log de la creación de los tokens.
     }
 
     /// @dev Returns the current token price
